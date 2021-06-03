@@ -1,51 +1,71 @@
-import React, { createContext, useState } from 'react';
-import { useEffect } from 'react';
-import api from '../services/api.js'
+import React, { createContext, useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../services/api.js";
 
-const Context = createContext()
-
+const Context = createContext();
+const storeData = async (key, value) => {
+  const jsonValue = JSON.stringify(value);
+  try {
+    await AsyncStorage.setItem(key, jsonValue);
+  } catch (e) {
+    console.log(e);
+    return e;
+    // saving error
+  }
+};
 function AuthProvider({ children }) {
-    const [authenticated, setAuthenticated] = useState(false)
-    const [loading, setLoading] = useState(true)
-    const [validateToken, setValidateToken] = useState()
+  const [user, setUser] = useState(false);
 
-    useEffect(() => {
-        if (validateToken) {
-            setAuthenticated(true)
-        }
-
-        setLoading(false)
-    }, [])
-
-    async function handleLogin(email, password) {
-        return await api.post('/auth', {
-            email: email,
-            password: password
-        }).then(result => {
-            setAuthenticated(true)
-            setValidateToken(`${result.data.token}`)
-
-            return result
-        }).catch(err => {
-            console.log('erro', err)
-            return err
-        })
+  useEffect(() => {
+    if (user) {
+      storeData("auth", user);
     }
-    async function handleLogout() {
-        setAuthenticated(false)
-        setValidateToken(undefined)
-    }
+  }, [user]);
 
-    if (loading) {
-        return loading
-    }
+  function handleLogin(email, password) {
+    return api
+      .post("/auth", {
+        email: email,
+        password: password,
+      })
+      .then((result) => {
+        setUser(result.data);
+        return result.data;
+      })
+      .catch((err) => {
+        return {
+          error: err.response.data
+            ? err.response.data.message
+            : "Intertal Error",
+        };
+      });
+  }
+  function handleRegister(fromData) {
+    return api
+      .post("/users", fromData)
+      .then((result) => {
+        setUser(result.data);
+        return result.data;
+      })
+      .catch((err) => {
+        return {
+          error: err.response.data
+            ? err.response.data.message
+            : "Intertal Error",
+        };
+      });
+  }
+  async function handleLogout() {
+    setUser(false);
+  }
 
-
-    return (
-        <Context.Provider value={{ authenticated, handleLogin, handleLogout }}>
-            {children}
-        </Context.Provider>
-    )
+  return (
+    <Context.Provider
+      value={{ user, handleLogin, handleLogout, handleRegister }}
+    >
+      {children}
+    </Context.Provider>
+  );
 }
 
-export { Context, AuthProvider }
+export { Context, AuthProvider };

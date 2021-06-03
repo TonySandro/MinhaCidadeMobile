@@ -1,9 +1,9 @@
 import styled from "styled-components/native"
 
 export const Container = styled.View`
-fontFamily: Roboto;
+font-family: Roboto;
 flex: 1;
-backgroundColor: #fff;
-alignItems: center;
-justifyContent: center;
+background-color: #fff;
+align-items: center;
+justify-content: center;
 `;

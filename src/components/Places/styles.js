@@ -4,7 +4,7 @@ export const Container = styled.View`
   font-family: Roboto;
   flex: 1;
   background-color: #fff;
-  padding-left: 5%;
+  padding-left: 7%;
 `;
 
 export const Title = styled.Text`
