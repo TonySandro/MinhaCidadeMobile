@@ -1,10 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import {
-  // ScrollView,
-  Text,
-  Image,
-} from "react-native";
+import React, { useContext } from "react";
+import { ScrollView, Text, Image } from "react-native";
 
 import {
   Container,
@@ -22,7 +18,47 @@ import {
 import { Ionicons, Fontisto, Entypo } from "@expo/vector-icons";
 import ImgPonto from "../../images/PontoTuristico.png";
 
+import FavoriteScroll from "../../components/FavoriteScrollView";
+
 export default function App({ navigation }) {
+  const places = [
+    {
+      image: { ImgPonto },
+      name: "Quadra Noelândia",
+      location: "Vila Noelândia",
+    },
+    {
+      image: { ImgPonto },
+      name: "EREM Dr. Mota",
+      location: "Vila Noelândia",
+    },
+    {
+      image: { ImgPonto },
+      name: "Caramello Shoes",
+      location: "Rua Manoel Augusto",
+    },
+    {
+      image: { ImgPonto },
+      name: "EREM Dr. Mota",
+      location: "Vila Noelândia",
+    },
+    {
+      image: { ImgPonto },
+      name: "Caramello Shoes",
+      location: "Rua Manoel Augusto",
+    },
+    {
+      image: { ImgPonto },
+      name: "EREM Dr. Mota",
+      location: "Vila Noelândia",
+    },
+    {
+      image: { ImgPonto },
+      name: "Caramello Shoes",
+      location: "Rua Manoel Augusto",
+    },
+  ];
+
   return (
     <Container>
       <Header>
@@ -36,20 +72,7 @@ export default function App({ navigation }) {
       </Header>
 
       <Body>
-        <Mold>
-          <PointImage source={ImgPonto} />
-
-          <TextFild>
-            <TitlePoint>Praça Matriz</TitlePoint>
-            <Location>
-              <Entypo name="location-pin" size={18} color="#FD1515" />
-              Location
-            </Location>
-          </TextFild>
-          <Exit>
-            <Text>X</Text>
-          </Exit>
-        </Mold>
+        <FavoriteScroll data={places} />
       </Body>
 
       <StatusBar style="auto" />

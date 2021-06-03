@@ -1,38 +1,6 @@
 import styled from "styled-components/native";
 
-export const Container = styled.View`
-  font-family: Roboto;
-  flex: 1;
-  background-color: #fff;
-  padding-left: 5%;
-  padding-right: 5%;
-`;
 
-export const Header = styled.View`
-  padding-top: 10%;
-  padding-right: 5%;
-  text-align: center;
-
-  height: 18%;
-  width: 100%;
-`;
-
-export const Icons = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-export const Title = styled.Text`
-  font-size: 20px;
-  color: #7c73e6;
-  font-weight: bold;
-`;
-
-export const Body = styled.View`
-  flex: 1;
-  align-items: center;
-`;
 
 export const Scroll = styled.ScrollView`
   font-family: Roboto;
