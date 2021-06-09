@@ -1,26 +1,20 @@
 import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-import { MaterialIcons, Entypo, Ionicons } from "@expo/vector-icons";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Login from "./pages/login";
 import Cadastro from "./pages/cadastro";
 import Welcome from "./pages/welcome";
-import Home from "./pages/home";
+import Home from "./pages/Home";
 import Favorite from "./pages/favorite";
 import Config from "./components/PopupConfig/index.js";
 import { Context } from "./Context/AuthContext";
 
 import Profile from "./components/Profile/index.js";
-import { TouchableOpacity } from "react-native";
 
 const Stack = createStackNavigator();
-
-function onOpen() {
-  console.log("Open");
-}
 
 function StackNavigation() {
   return (
@@ -33,56 +27,58 @@ function StackNavigation() {
   );
 }
 
-const icons = {
-  Home: {
-    lib: Entypo,
-    name: "home",
-  },
-  Favorite: {
-    lib: MaterialIcons,
-    name: "favorite",
-  },
-  Configs: {
-    lib: Ionicons,
-    name: "settings-sharp",
-  },
-};
-
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 function TabNavigation() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          if (route.name === "Perfil") return <Profile />;
-          const { lib: Icon, name } = icons[route.name];
-          return <Icon name={name} size={size} color={color} />;
-        },
-      })}
-      tabBarOptions={{
-        style: {
-          backgroundColor: "#F2F2F2",
-          borderTopColor: "#B8B6B6",
-        },
-        activeTintColor: "#7C73E6",
-        inactiveTintColor: "#6F6F6F",
-      }}
+      initialRouteName="Home"
+      activeColor="#7C73E6"
+      inactiveColor="#6F6F6F"
+      barStyle={{ backgroundColor: "#F2F2F2", borderTopColor: "#ff0000" }}
     >
-      <Tab.Screen name="Home" component={Home} options={{ title: "" }} />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="Favorite"
         component={Favorite}
-        options={{ title: "" }}
-      />
-      <Tab.Screen
-        name="Configs"
-        component={Config}
         options={{
-          title: "",
+          tabBarLabel: "Favorite",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="cards-heart"
+              color={color}
+              size={26}
+            />
+          ),
         }}
       />
-      <Tab.Screen name="Perfil" component="#" options={{ title: "" }} />
+      <Tab.Screen
+        name="Config"
+        component={Config}
+        options={{
+          tabBarLabel: "Config",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="cog" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarLabel: "",
+          tabBarIcon: () => <Profile />,
+        }}
+      />
     </Tab.Navigator>
   );
 }
